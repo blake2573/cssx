@@ -1,0 +1,17 @@
+@mixin standardButton($color: #90caf9, $hoverColor: #42a5f5, $padding: 6px 12px) {
+    background-color: $color;
+    outline: none;
+    border: none;
+    border-radius: 6px;
+    box-shadow: rgba(0, 0, 0, 0.2) -2px 2px 4px 0px;
+    font-size: large;
+    margin-top: auto;
+    padding: $padding;
+    --id: "test";
+    --type: button;
+
+    &:hover:not([disabled]) {
+        background-color: $hoverColor;
+        cursor: pointer;
+    }
+}

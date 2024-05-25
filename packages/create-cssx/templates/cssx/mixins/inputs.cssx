@@ -1,0 +1,26 @@
+@mixin inputField() {
+    border: none;
+    border-bottom: 2px solid rgb(0, 0, 0, 0.4);
+    font-size: large;
+    padding: 6px;
+
+    &:placeholder-shown {
+        font-style: italic;
+    }
+
+    &:user-invalid {
+        border-color: rgb(255, 0, 0, 0.3);
+
+        &:focus-visible {
+            border-color: red;
+        }
+    }
+    
+    &:focus-visible {
+        outline: none;
+
+        &:not(:user-invalid) {
+            border-color: black;
+        }
+    }
+}

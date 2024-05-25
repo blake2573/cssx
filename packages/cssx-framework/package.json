@@ -1,0 +1,26 @@
+{
+  "name": "cssx-framework",
+  "version": "0.0.18",
+  "description": "A CSS driven web framework that compiles semi-standard CSS into HTML content + styles at runtime",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "cssx",
+    "web framework",
+    "framework",
+    "css",
+    "javascript",
+    "css pre-processor"
+  ],
+  "author": "Blake Watkin",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "aria-attributes": "^2.0.1",
+    "html-element-attributes": "^3.4.0",
+    "html-event-attributes": "^2.2.0",
+    "html-tag-names": "^2.1.0"
+  }
+}

@@ -1,0 +1,170 @@
+@import '../mixins/buttons.cssx';
+@import '../mixins/containers.cssx';
+@import '../mixins/inputs.cssx';
+
+@mixin updateForm($field: name) {
+    --onchange: "let x = $parseObject($getVariable('--form'));";
+    --onchange: "x.$field = this.value;";
+    --onchange: "$setVariable('--form', $stringifyObject(x));";
+}
+
+div.page {
+    --form: {"name": null, "email": null};
+    display: flex;
+    height: 100dvh;
+
+    div.root {
+        @include appContainer;
+        padding: 16px;
+        width: 50dvw;
+
+        h2 {
+            line-height: 1;
+            margin: 0;
+            --text: "Welcome to CSSX!";
+        }
+
+        p.overview {
+            margin: 0;
+            --text: "This form is built using CSSX - a web UI framework built to parse standard (mostly) CSS into web components and styles at runtime. If you hate writing JavaScript or HTML, then you're in the right place! 🎉";
+        }
+
+        div.formWrapper {
+            display: grid;
+            grid-template-columns: 55% 30%;
+            justify-content: space-between;
+            margin-top: 12px;
+            width: 100%;
+
+            div.information {
+                display: flex;
+                flex-direction: column;
+                gap: 12px;
+
+                h3 {
+                    margin: 0;
+                    --text: "Help us stay in touch";
+                }
+
+                p {
+                    margin: 0;
+                    --text: "We would love to keep in touch with you to help you keep up to date with the great enhancements we have in store 💪";
+                }
+
+                p {
+                    --text: "Of course, we will never contact you without your permission. We hate spam as much as you do.";
+                }
+
+                p {
+                    --text: "Alternatively, follow us on social media to stay in the loop 🎢➰";
+                }
+
+                ul {
+                    display: flex;
+                    gap: 12px;
+                    list-style-type: none;
+                    margin: 0;
+                    padding: 0;
+
+                    li {
+                        display: inline;
+                        position: relative;
+
+                        &:not(:last-child)::after {
+                            content: '.';
+                            position: absolute;
+                            right: -8px;
+                            top: -16%;
+                        }
+
+                        a {
+                            color: blue;
+                            text-decoration: none;
+                            --href: "https://www.github.com";
+                            --rel: "noopener";
+                            --target: "_blank";
+                            --text: "Github";
+
+                            &:hover {
+                                cursor: pointer;
+                                text-decoration: underline;
+                            }
+                        }
+                    }
+
+                    li {
+                        a {
+                            --href: "https://www.twitter.com";
+                            --rel: "noopener";
+                            --target: "_blank";
+                            --text: "X (Twitter)";
+                        }
+                    }
+                }
+            }
+
+            div.dataEntry {
+                display: flex;
+                flex-direction: column;
+                position: relative;
+
+                &:before {
+                    background-color: lightgray;
+                    content: '';
+                    height: 60%;
+                    left: -30%;
+                    position: absolute;
+                    top: 20%;
+                    width: 2.5px;
+                }
+
+                label {
+                    font-size: medium;
+                    --for: "name";
+                    --text: "Name:";
+
+                    &:not(:first-of-type) {
+                        margin-top: 8px;
+                    }
+
+                    &:has(+ input:required):after {
+                        content: '*';
+                        color: red;
+                        margin-left: -2px;
+                    }
+                }
+
+                input.name {
+                    @include inputField;
+                    --id: "name";
+                    --onchange: document.querySelector('.submit').disabled = this.value === '' || document.querySelector('.email').value === '';;
+                    @include updateForm(name);
+                    --placeholder: "John Doe";
+                    --required: "required";
+                }
+
+                label {
+                    --for: "email";
+                    --text: "Email:";
+                }
+
+                input.email {
+                    @include inputField;
+                    --id: "email";
+                    --onchange: document.querySelector('.submit').disabled = this.value === '' || document.querySelector('.name').value === '';;
+                    @include updateForm(email);
+                    --placeholder: "name@email.com";
+                    --required: "required";
+                }
+
+                button.submit {
+                    @include standardButton;
+                    --disabled: "true";
+                    --onclick: alert('Your name is ' + $parseObject($getVariable('--form')).name + ' and your email is ' + $parseObject($getVariable('--form')).email);
+                    --text: "Submit";
+                    --title: "Submit form";
+                }
+            }
+        }
+    }
+}
