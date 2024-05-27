@@ -5,7 +5,7 @@ import { htmlTagNames } from 'html-tag-names'
 import { CHARS } from './chars.js'
 import { replaceVariables } from './variables.js'
 
-const GET_PROPERTY_VALUE_REGEX_TEXT = /\:\s*(.*)\s*\;/
+const GET_PROPERTY_VALUE_REGEX_TEXT = /\:\s*(.*)\s*$/
 const GET_PROPERTY_VALUE_REGEX = /[^:\s][^:\n]*$/
 
 const getRegex = (text) =>
