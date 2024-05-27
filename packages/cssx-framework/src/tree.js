@@ -22,6 +22,7 @@ const isEndParentBlock = (text) => text.trim().endsWith(CHARS.CLOSE_BRACE)
 function ify(input, dirname) {
   var parents = []
   var mixins = []
+  var trackedMultilineAttribute = null
 
   var recursion = function(input) {
     return input
@@ -35,6 +36,12 @@ function ify(input, dirname) {
         }
 
         if (isComment(treeNode.name)) return
+
+        if (trackedMultilineAttribute)
+          treeNode = {
+            ...treeNode,
+            name: `${CHARS.DOUBLE_HYPHEN}${trackedMultilineAttribute.name}${CHARS.COLON} ${treeNode.name}`
+          }
 
         // If the current line is an import statement, process the file to retrieve any relevant mixins into memory
         // This block doesn't return anything because the import statement is not a part of the final tree, it's just providing code references
@@ -51,6 +58,14 @@ function ify(input, dirname) {
 
         // Initial parsing to a tree node
         treeNode = {...treeNode, ...parseContentToTree(treeNode.name, parent !== null && parent?.type !== 'mixin' ? parent : null), ...parseMixin(treeNode.name)}
+
+        if (trackedMultilineAttribute && treeNode.isEndMultiline)
+          trackedMultilineAttribute = null
+
+        if (treeNode.type === 'attribute' && treeNode.value === '') {
+          trackedMultilineAttribute = treeNode
+          return
+        }
 
         // Add or remove parents from tracked hierarchy based on braces
         // If a mixin was the most recent parent being dropped from the list, add it to the list of known mixins

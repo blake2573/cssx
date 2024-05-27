@@ -5,7 +5,19 @@ import { htmlTagNames } from 'html-tag-names'
 import { CHARS } from './chars.js'
 import { replaceVariables } from './variables.js'
 
-const GET_PROPERTY_VALUE_REGEX = /\:\s*(.*)\s*\;/
+const GET_PROPERTY_VALUE_REGEX_TEXT = /\:\s*(.*)\s*\;/
+const GET_PROPERTY_VALUE_REGEX = /[^:\s][^:\n]*$/
+
+const getRegex = (text) =>
+    text.split(CHARS.COLON).length - 1 > 1 || !text.includes(CHARS.DOUBLE_QUOTE)
+        ? {
+            string: GET_PROPERTY_VALUE_REGEX_TEXT,
+            index: 1
+        }
+        : {
+            string: GET_PROPERTY_VALUE_REGEX,
+            index: 0
+        }
 
 /**
  * Used to unescape strings that are wrapped in double quotes.
@@ -15,7 +27,7 @@ const GET_PROPERTY_VALUE_REGEX = /\:\s*(.*)\s*\;/
  * @returns {string} Unescaped string value
  */
 const parseAttributeValue = (text) =>
-    JSON.parse(text.startsWith(CHARS.DOUBLE_QUOTE) ? text : `${CHARS.DOUBLE_QUOTE}${text}${CHARS.DOUBLE_QUOTE}`)
+    JSON.parse(text.startsWith(CHARS.DOUBLE_QUOTE) ? text.substring(0, text.lastIndexOf(CHARS.DOUBLE_QUOTE) + 1) : `${CHARS.DOUBLE_QUOTE}${text}${CHARS.DOUBLE_QUOTE}`)
 
 /**
  * Parse a given string into a valid tree node if it is a valid HTML element or attribute.
@@ -63,11 +75,13 @@ function parseContentToTree(text, parent = null) {
             return regex.test(text)
         })
         .forEach(attribute => {
-            var value = text.match(GET_PROPERTY_VALUE_REGEX)[1]
+            var regex = getRegex(text)
+            var value =  (text.match(regex.string) ?? [])[regex.index] ?? ''
             html = {
                 name: attribute,
                 value: parseAttributeValue(value),
-                type: 'attribute'
+                type: 'attribute',
+                isEndMultiline: value.trim().endsWith(`${CHARS.DOUBLE_QUOTE}${CHARS.SEMICOLON}`)
             }
         })
 
@@ -96,7 +110,8 @@ function parseHtmlContentOrDefault(obj, vars) {
     }
 
     if (obj.name.includes(`${CHARS.DOUBLE_HYPHEN}text`)) {
-        var value = obj.name.match(GET_PROPERTY_VALUE_REGEX)[1]
+        var regex = getRegex(obj.name)
+        var value = obj.name.match(regex.string)[regex.index]
         returnText = parseAttributeValue(value)
     }
 
