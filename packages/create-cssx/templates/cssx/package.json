@@ -11,12 +11,12 @@
   "license": "ISC",
   "dependencies": {
     "connect-livereload": "^0.6.1",
-    "cssx-framework": "^0.0.21",
+    "cssx-framework": "^0.0.22",
     "express": "^4.19.2",
     "livereload": "^0.9.3"
   },
   "type": "module",
   "devDependencies": {
-    "nodemon": "^3.1.0"
+    "nodemon": "^3.1.4"
   }
 }
