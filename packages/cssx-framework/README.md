@@ -72,7 +72,7 @@ div.root {
 
 Mixins can be defined with the syntax below:
 
-```css
+```scss
 @mixin mixinName($param1: defaultValue1, $param2: defaultValue2) {
     ...
 }
@@ -84,7 +84,7 @@ Mixin parameters can be overridden when including in a component, but if definin
 
 A mixin can either be defined as a full component, with the element definition at the top level:
 
-```css
+```scss
 @mixin standardButton($backgroundColor: lightgreen, $hoverColor: lightblue, $class: example, $borderRadius: 6px, $type: button) {
     button {
         background-color: $backgroundColor;
@@ -105,7 +105,7 @@ div.root {
 
 or just as the nested styles / attributes / children, depending how you wish to interact with them
 
-```css
+```scss
 @mixin standardButton($backgroundColor: lightgreen, $hoverColor: lightblue, $class: example, $borderRadius: 6px, $type: button) {
     background-color: $backgroundColor;
     --borderRadius: $borderRadius;
@@ -144,17 +144,18 @@ button.aButton {
 </button>
 ```
 
-Defining functions across multiple lines is also possible, however to maintain similarity with standard CSS formatting, the event attribute needs to be defined for every single line. This will then get transpiled into a single line concatenated string on the event attribute.
+Defining functions across multiple lines is also possible by defining the event attribute values on lines subsequent to the event attribute definition, as outlined in the snippet below. This will then get transpiled into a single line concatenated string on the event attribute.
 
 > Note: When doing multiline functions, don't forget your semi-colons to break separate functions up - CSSX just joins the strings with spaces and isn't smart enough to know where semi-colons should go!
 
-```css
+```scss
 button.anotherButton {
-    --onclick: "console.log('test');";
-    --onclick: "setInterval(() => {";
-    --onclick: "document.getElementById('picture-gallery').scrollBy({left: -25, behavior: 'smooth'})";
-    --onclick: "}, 100)";
-    --text: "Click me again";
+    --onclick:
+        "console.log('test');"
+        "setInterval(() => {"
+        "document.getElementById('picture-gallery').scrollBy({left: -25, behavior: 'smooth'})"
+        "}, 100)";
+    --text: "Click me again"
 }
 ```
 
@@ -172,10 +173,11 @@ To make shared functions, simply pull your event attribute definitions out into 
 
 ```scss
 @mixin testFunction() {
-    --onclick: "console.log('test');";
-    --onclick: "setInterval(() => {";
-    --onclick: "document.getElementById('picture-gallery').scrollBy({left: -25, behavior: 'smooth'})";
-    --onclick: "}, 100)";
+    --onclick:
+        "console.log('test');"
+        "setInterval(() => {"
+        "document.getElementById('picture-gallery').scrollBy({left: -25, behavior: 'smooth'})"
+        "}, 100)";
 }
 
 button.anotherButton {
