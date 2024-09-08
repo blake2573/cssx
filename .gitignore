@@ -1,3 +1,2 @@
 *.yaml
-packages/cssx-framework/node_modules/
 test/
