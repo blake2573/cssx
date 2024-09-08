@@ -2,7 +2,6 @@
   "name": "src",
   "version": "1.0.0",
   "description": "",
-  "main": "app.js",
   "scripts": {
     "start": "cssx"
   },
@@ -11,13 +10,10 @@
   "license": "ISC",
   "dependencies": {
     "connect-livereload": "^0.6.1",
-    "cssx-framework-cli": "^0.1.0",
-    "cssx-framework": "^0.1.0",
+    "cssx-framework-cli": "^0.1.1",
+    "cssx-framework": "^0.1.1",
     "express": "^4.19.2",
     "livereload": "^0.9.3"
   },
-  "type": "module",
-  "devDependencies": {
-    "nodemon": "^3.1.4"
-  }
+  "type": "module"
 }

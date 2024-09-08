@@ -1,6 +1,6 @@
 {
   "name": "cssx-framework",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A CSS driven web framework that compiles semi-standard CSS into HTML content + styles at runtime",
   "main": "index.js",
   "scripts": {
