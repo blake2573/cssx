@@ -12,7 +12,7 @@ From the terminal, run `npx create-cssx@latest` or `npm create cssx@latest`, and
 
 ## Folder Structure
 
-As CSSX is a file-path route based framework, the default template expects each page to be a `.cssx` file within a `./routes` directory. This can be updated by changing the directory path passed into the `generateRoutes()` function in the `app.js` file.
+As CSSX is a file-path route based framework, the default template expects each page to be a `.cssx` file within a `./routes` directory. This can be updated by changing the `routeDir` in the `cssx.json` file.
 
 Any mixins or shared components that are setup can be stored however you like, and then referenced as imports (`@import '{relative_path_to_file}';`) relative to the calling file.
 

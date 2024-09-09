@@ -3,15 +3,16 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "start": "cssx"
+    "start": "cssx",
+    "build": "cssx build"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "connect-livereload": "^0.6.1",
-    "cssx-framework-cli": "^0.1.1",
-    "cssx-framework": "^0.1.1",
+    "cssx-framework-cli": "^0.1.2",
+    "cssx-framework": "^0.1.2",
     "express": "^4.19.2",
     "livereload": "^0.9.3"
   },

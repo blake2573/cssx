@@ -1,6 +1,6 @@
 {
   "name": "create-cssx",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "A CLI tool to create a CSSX project based on a template with a given project name.",
   "main": "index.js",
   "type": "module",
