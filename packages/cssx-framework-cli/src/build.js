@@ -55,4 +55,29 @@ function generateRouteFiles(relativeRouteDirPath, outputDir) {
     console.log('Build complete!')
 }
 
+function copyAssets(assetsDirectoryPath, outputAssetsDirectoryPath) {
+    const assetsDir = resolve(rootDir, assetsDirectoryPath)
+    const outputAssetsDir = resolve(rootDir, outputAssetsDirectoryPath, 'assets')
+
+    if (!existsSync(outputAssetsDir)) mkdirSync(outputAssetsDir)
+
+    readdirSync(assetsDir).forEach(file => {
+        const filePath = join(assetsDir, file)
+        const outputFilename = join(outputAssetsDir, file)
+
+        readFile(filePath, (err, data) => {
+            if (err) {
+                console.error(err)
+                return
+            }
+
+            writeFile(outputFilename, data, (err) => {
+                if (err) console.error(err)
+            })
+        })
+    })
+}
+
 generateRouteFiles(config.routeDir, config.outputDir)
+
+if (config.assetsDir) copyAssets(config.assetsDir, config.outputDir)

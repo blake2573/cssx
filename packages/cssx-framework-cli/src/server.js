@@ -66,6 +66,8 @@ liveReloadServer.server.once("connection", () => {
 
 app.use(connectLiveReload())
 
+if (config.assetsDir) app.use(express.static(config.assetsDir))
+
 // Define SPA routes
 generateRoutes(app, config.routeDir)
 app.get('/', (_, res) => res.redirect(config.defaultRoute))
