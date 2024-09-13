@@ -22,8 +22,12 @@ function generateRouteFiles(relativeRouteDirPath, outputDir) {
     const files = readdirSync(relativeRouteDirPath)
     const __dirname = resolve(rootDir)
 
-    if (!existsSync(outputDir)) mkdirSync(outputDir)
+    if (!existsSync(outputDir)) {
+        console.log('Creating output directory...')
+        mkdirSync(outputDir)
+    }
 
+    console.log('Parsing CSSX files...')
     files.forEach(file => {
         const filePath = join(relativeRouteDirPath, file)
 
@@ -51,16 +55,18 @@ function generateRouteFiles(relativeRouteDirPath, outputDir) {
             })
         })
     })
-
-    console.log('Build complete!')
 }
 
 function copyAssets(assetsDirectoryPath, outputAssetsDirectoryPath) {
     const assetsDir = resolve(rootDir, assetsDirectoryPath)
-    const outputAssetsDir = resolve(rootDir, outputAssetsDirectoryPath, 'assets')
+    const outputAssetsDir = resolve(rootDir, outputAssetsDirectoryPath)
 
-    if (!existsSync(outputAssetsDir)) mkdirSync(outputAssetsDir)
+    if (!existsSync(outputAssetsDir)) {
+        console.log('Creating assets output directory...')
+        mkdirSync(outputAssetsDir)
+    }
 
+    console.log('Copying asset files...')
     readdirSync(assetsDir).forEach(file => {
         const filePath = join(assetsDir, file)
         const outputFilename = join(outputAssetsDir, file)
@@ -81,3 +87,5 @@ function copyAssets(assetsDirectoryPath, outputAssetsDirectoryPath) {
 generateRouteFiles(config.routeDir, config.outputDir)
 
 if (config.assetsDir) copyAssets(config.assetsDir, config.outputDir)
+
+console.log('Build complete!')

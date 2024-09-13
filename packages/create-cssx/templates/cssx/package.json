@@ -11,8 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "connect-livereload": "^0.6.1",
-    "cssx-framework-cli": "^0.1.4",
-    "cssx-framework": "^0.1.4",
+    "cssx-framework-cli": "^0.1.7",
     "express": "^4.21.0",
     "livereload": "^0.9.3"
   },
