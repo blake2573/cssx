@@ -2,8 +2,8 @@
 const PARSE_VARIABLE_REGEX = /^(\$.*[^\s])\s*:\s*(.*);/
 
 const BUILT_IN_FUNCTIONS = {
-  '$setVariable': 'document.styleSheets[document.styleSheets.length - 1].cssRules[0].style.setProperty',
-  '$getVariable': 'document.styleSheets[document.styleSheets.length - 1].cssRules[0].style.getPropertyValue',
+  '$setVariable': 'document.getElementById(\'stylesheet\').sheet.cssRules[0].style..setProperty',
+  '$getVariable': 'document.getElementById(\'stylesheet\').sheet.cssRules[0].style.getPropertyValue',
   '$parseObject': 'JSON.parse',
   '$stringifyObject': 'JSON.stringify',
 }

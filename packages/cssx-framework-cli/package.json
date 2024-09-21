@@ -1,6 +1,6 @@
 {
   "name": "cssx-framework-cli",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "description": "A CLI tool to handle building and running CSSX projects.",
   "main": "index.js",
   "type": "module",
@@ -16,7 +16,7 @@
   "dependencies": {
     "commander": "^12.1.0",
     "connect-livereload": "^0.6.1",
-    "cssx-framework": "^0.1.8",
+    "cssx-framework": "^0.1.9",
     "express": "^4.21.0",
     "livereload": "^0.9.3"
   },
