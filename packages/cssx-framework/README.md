@@ -186,6 +186,23 @@ button.anotherButton {
 }
 ```
 
+It is also possible to further abstract functions by using a mixin parameter to define which attribute the function fires on. This can be overridden when including the function on an element and provides further flexibility in function definitions.
+
+```scss
+@mixin testFunction($attribute: onclick) {
+    --$attribute:
+        "console.log('test');"
+        "setInterval(() => {"
+        "document.getElementById('picture-gallery').scrollBy({left: -25, behavior: 'smooth'})"
+        "}, 100)";
+}
+
+button.anotherButton {
+    @include testFunction(onload);
+    --text: "Click me again";
+}
+```
+
 #### Built-in Function Variables
 
 CSSX has some built-in function variables to simplify the code needed for event functions. They can be referenced for any event function and will be replaced via string replacement at compile time. The functionality of these built-in functions can be overidden by redefining a variable with the same name within your CSSX.

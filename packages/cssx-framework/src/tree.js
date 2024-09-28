@@ -27,12 +27,14 @@ function ify(input, dirname) {
   var recursion = function(input) {
     return input
       .filter(line => line.l || line.r)
-      .map(line => {
+      .map((line, idx) => {
         var treeNode = {
+          original: line.r,
           name: line.r,
           attrs: [],
           children: [],
-          parent: null
+          parent: null,
+          lineIndex: idx
         }
 
         if (isComment(treeNode.name)) return
@@ -108,18 +110,21 @@ function ify(input, dirname) {
           if (mixin) {
             var newMixin = {...mixin}
             overrideParams(newMixin, params)
-            
-            parent.children.push(
-              ...newMixin.children
-              .slice()
-              .filter(child => child.name.trim() !== CHARS.CLOSE_BRACE)
-              .map(child => ({...child, parent: parent}))
-            )
 
-            parent.attrs.push(
-              ...newMixin.attrs
-              .slice()
-              .map(child => ({...child, parent: parent}))
+            // because the params could have been intended to override event attribute definitions, we need to reparse the mixin's children before pushing them to the parent
+            // and because attributes could be defined interweaved with children, we need to reprocess them as well, ensuring they are sorted in original definition order
+            recursion(
+              _analyze(
+                newMixin.children
+                  .slice()
+                  .filter(child => child.name.trim() !== CHARS.CLOSE_BRACE)
+                  .map(child => ({ text: child.name, idx: child.lineIndex }))
+                  .concat(
+                    newMixin.attrs.map(attr => ({ text: attr.original, idx: attr.lineIndex }))
+                  )
+                  .sort((a, b) => a.idx - b.idx)
+                  .map(child => child.text)
+              )
             )
           }
         }

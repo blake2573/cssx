@@ -20,14 +20,29 @@ const getRegex = (text) =>
         }
 
 /**
+ * Unescapes a string manually.
+ * @param {string} text The input string to unescape
+ * @returns {string} Unescaped string value
+ */
+const unescapeString = (text) => {
+    return text
+        .replace(/\\"/g, '"')
+        .replace(/\\\\/g, '\\');
+}
+
+/**
  * Used to unescape strings that are wrapped in double quotes.
  * 
  * eg. `"Hello World, it\'s me"` -> `Hello World, it's me`
  * @param {string} text The input string to parse
  * @returns {string} Unescaped string value
  */
-const parseAttributeValue = (text) =>
-    JSON.parse(text.startsWith(CHARS.DOUBLE_QUOTE) ? text.substring(0, text.lastIndexOf(CHARS.DOUBLE_QUOTE) + 1) : `${CHARS.DOUBLE_QUOTE}${text}${CHARS.DOUBLE_QUOTE}`)
+const parseAttributeValue = (text) => {
+    const unescapedText = text.startsWith(CHARS.DOUBLE_QUOTE) 
+        ? text.substring(1, text.lastIndexOf(CHARS.DOUBLE_QUOTE))
+        : text;
+    return unescapeString(unescapedText);
+}
 
 /**
  * Parse a given string into a valid tree node if it is a valid HTML element or attribute.
