@@ -72,12 +72,12 @@ function ify(input, dirname) {
         // Add or remove parents from tracked hierarchy based on braces
         // If a mixin was the most recent parent being dropped from the list, add it to the list of known mixins
         if (isStartParentBlock(treeNode.name))
-            parents.push(treeNode)
+          parents.push(treeNode)
         else if (isEndParentBlock(treeNode.name)) {
-            var previousParent = parents.pop()
+          var previousParent = parents.pop()
 
-            if (previousParent.type === 'mixin')
-              mixins.push(previousParent)
+          if (previousParent.type === 'mixin')
+            mixins.push(previousParent)
         }
 
         // If there is no current parent, return the element as a root element in the tree
@@ -112,18 +112,28 @@ function ify(input, dirname) {
             overrideParams(newMixin, params)
 
             // because the params could have been intended to override event attribute definitions, we need to reparse the mixin's children before pushing them to the parent
-            // and because attributes could be defined interweaved with children, we need to reprocess them as well, ensuring they are sorted in original definition order
+            // and because attributes could be defined interweaved with children (recursively), we need to reprocess them as well, ensuring they are sorted in original definition order
+            const flattenChildren = (children) =>
+              children.reduce((acc, child) => {
+                acc.push({ text: child.name, idx: child.lineIndex })
+                if (child.children && child.children.length > 0) {
+                  acc = acc.concat(flattenChildren(child.children))
+                }
+                return acc
+              }, [])
+            
             recursion(
               _analyze(
-                newMixin.children
-                  .slice()
+                flattenChildren(
+                  newMixin
+                  .children
                   .filter(child => child.name.trim() !== CHARS.CLOSE_BRACE)
-                  .map(child => ({ text: child.name, idx: child.lineIndex }))
-                  .concat(
+                )
+                .concat(
                     newMixin.attrs.map(attr => ({ text: attr.original, idx: attr.lineIndex }))
-                  )
-                  .sort((a, b) => a.idx - b.idx)
-                  .map(child => child.text)
+                )
+                .sort((a, b) => a.idx - b.idx)
+                .map(child => child.text)
               )
             )
           }
